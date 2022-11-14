@@ -1,5 +1,13 @@
 var width = 800;
 var height = 600;
+var textures = ["models/textures/Wood028_2K_Color.png", "models/textures/wood1.jpg", "models/textures/wood2.jpg"]
+
+texture = sessionStorage.getItem("texture");
+if (texture == null) {
+    texture = 0;
+    sessionStorage.setItem("texture", texture);
+}
+console.log("init: ", texture);
 
 var scene = new THREE.Scene()
 scene.background = new THREE.Color(0xE5E5DA)
@@ -14,6 +22,7 @@ scene.add(grid)
 
 var candidatos = [];
 
+
 renderer.toneMapping = THREE.ReinhardToneMapping;
 renderer.toneMappingExposure = 4;
 renderer.setSize( width, height )
@@ -21,6 +30,7 @@ renderer.shadowMap.enabled = true
 
 var relogio = new THREE.Clock();
 var misturador = new THREE.AnimationMixer(scene);
+var initmap;
 
 camera.position.x = -5
 camera.position.y = 8
@@ -39,11 +49,13 @@ new THREE.GLTFLoader().load(
             x.castShadow = true;
             x.receiveShadow = true;			
         }
+        candidatos = scene.getObjectByName("rack").children;
         if(x.name.includes("drawer") || x.name.includes("door")) {
             candidatos.push(x); // adiciona o elemento x ao vetor botoes    
             console.log(x.name);  
         }
     })
+    initmap = scene.getObjectByName("rack").material.map;
     var clip = THREE.AnimationClip.findByName( gltf.animations, 'AbreGavetaBaixo' );
     GavetaBaixo = misturador.clipAction( clip );
     GavetaBaixo.setLoop(THREE.LoopOnce);
@@ -63,6 +75,10 @@ new THREE.GLTFLoader().load(
     portaEsq = misturador.clipAction( clip );
     portaEsq.setLoop(THREE.LoopOnce);
     portaEsq.clampWhenFinished = true;
+    if (texture != 0) {
+        apply();
+    }
+    
 }
 )
 
@@ -104,6 +120,7 @@ function pegarPrimeiro() {
     if (intersetados.length > 0) {
         var parent;
         parent = intersetados[0].object.parent.name;
+        console.log("inter: ", intersetados);
         console.log(parent);
         switch (parent) {
             case "drawerDown":
@@ -165,11 +182,13 @@ function pegarPrimeiro() {
         }
     }
     console.log("raicaster")
+    checkTexture();
 }
 
 
 addLights()
 animate()
+
 
 function animate() {
     requestAnimationFrame( animate );
@@ -188,3 +207,41 @@ function addLights(){
     scene.add( lightDir );
 }
 
+
+function checkTexture() {
+    if (texture != sessionStorage.getItem("texture")) {
+        texture = sessionStorage.getItem("texture");
+        apply();
+    }
+    
+}
+var txt;
+function apply() {
+    var loader = new THREE.TextureLoader();
+     txt = loader.load(textures[texture]);
+     txt.encoding = THREE.sRGBEncoding
+     txt.wrapS = THREE.RepeatWrapping;
+     txt.wrapT = THREE.RepeatWrapping;
+    //txt.minFilter = THREE.LinearMipMapLinearFilter;
+        var m = new THREE.MeshStandardMaterial({map: txt}); //, color: {r: 1, g: 1, b: 1}
+        m.roughness = initmap.roughness;
+        m.map.repeat = {x: 4, y: 4}
+        //m.map.offset = {x: 0, y: -3};
+        m.side = 2;
+        console.log(m.map.matrix)
+        m.map.flipY = initmap.flipY;
+        var rack = scene.getObjectByName("rack");
+        rack.material = m;
+        /*for (var i = 0; i < rack.children.length; i++) {
+            rack.children[i].material = m;
+        }*/
+        
+        //m.map = initmap;
+        scene.getObjectByName("Cube017_1").material = m;
+        scene.getObjectByName("Cube012_1").material = m;
+        scene.getObjectByName("Cube015_1").material = m;
+        scene.getObjectByName("Cube009_1").material = m;
+        scene.getObjectByName("Cube006").material = m;
+        scene.getObjectByName("Cube006_1").material = m;
+       
+}

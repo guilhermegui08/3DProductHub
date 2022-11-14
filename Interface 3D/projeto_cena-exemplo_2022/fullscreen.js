@@ -1,5 +1,6 @@
-var width = window.innerWidth;
+var width = window.innerWidth*0.75
 var height = window.innerHeight;
+
 
 var scene = new THREE.Scene();
 scene.background = new THREE.Color(0xE5E5DA);
@@ -106,26 +107,15 @@ document.onkeydown = function(e) {
         //history.pushState(-1, null);
         window.location.replace("index.html");
     } else if (key_press == "d") {
-        if (darkMode) {
-            darkMode = false;
-            scene.background = new THREE.Color(0xE5E5DA);
-            popUp.style.background = "rgba(21,21,32, 0.7)";
-            popUp.style.color = "#e5e5da";
-        } else {
-            darkMode = true;
-            scene.background = new THREE.Color(0x1a1a25);
-            popUp.style.background = "rgba(229, 229, 218, 0.7)";
-            popUp.style.color = "#1a1a25";
-        }
+        reverseDarkMode();
     }
 
 }
-
 let raycaster = new THREE.Raycaster()
 let rato = new THREE.Vector2()
 
 window.onclick = function(evento) {
-    rato.x = (evento.clientX / width) * 2 - 1
+    rato.x = (evento.clientX / (width)) * 2 - 1
     rato.y = -(evento.clientY / height) * 2 + 1
     // invocar raycaster
     pegarPrimeiro();
@@ -150,58 +140,16 @@ function pegarPrimeiro() {
         parent = intersetados[0].object.parent.name;
         switch (parent) {
             case "drawerDown":
-                if (gavetaBaixoAbrir) {
-                    gavetaBaixoAbrir = false;
-                    GavetaBaixo.paused = false;
-                    GavetaBaixo.timeScale = 1;
-                    //GavetaBaixo.reset();
-                    GavetaBaixo.play();
-                } else {
-                    gavetaBaixoAbrir = true;
-                    GavetaBaixo.timeScale = -1;
-                    GavetaBaixo.paused = false;
-                    //GavetaBaixo.reset();
-                    GavetaBaixo.play();
-                }
+                gavetaBaixo()
                 break;
             case "drawerUp":
-                if (gavetaCimaAbrir) {
-                    gavetaCimaAbrir = false;
-                    GavetaCima.paused = false;
-                    GavetaCima.timeScale = 1;
-                    GavetaCima.play();
-                } else {
-                    gavetaCimaAbrir = true;
-                    GavetaCima.timeScale = -1;
-                    GavetaCima.paused = false;
-                    GavetaCima.play();
-                }
+                gavetaCima()
                 break;
             case "doorRight":
-                if (portaDirAbrir) {
-                    portaDirAbrir = false;
-                    portaDir.paused = false;
-                    portaDir.timeScale = 1;
-                    portaDir.play();
-                } else {
-                    portaDirAbrir = true;
-                    portaDir.timeScale = -1;
-                    portaDir.paused = false;
-                    portaDir.play();
-                }
+                portaDireita()
                 break;
             case "doorLeft":
-                if (portaEsqAbrir) {
-                    portaEsqAbrir = false;
-                    portaEsq.paused = false;
-                    portaEsq.timeScale = 1;
-                    portaEsq.play();
-                } else {
-                    portaEsqAbrir = true;
-                    portaEsq.timeScale = -1;
-                    portaEsq.paused = false;
-                    portaEsq.play();
-                }
+                portaEsquerda();
                 break;
             default:
                 console.log(parent, "error");
@@ -210,7 +158,13 @@ function pegarPrimeiro() {
     console.log("raicaster")
 }
 
-
+//botoes do menu
+document.getElementById("btnportadireita").onclick = portaDireita;
+document.getElementById("btnportaesquerda").onclick = portaEsquerda;
+document.getElementById("btngavetacima").onclick = gavetaCima;
+document.getElementById("btngavetabaixo").onclick = gavetaBaixo;
+document.getElementById("dia").onclick = setDay;
+document.getElementById("noite").onclick = setNight;
 
 
 
@@ -279,4 +233,108 @@ function help() {
     setTimeout(function() {
         helping = false;
     }, 7750);
+}
+
+function portaDireita(){
+    if (portaDirAbrir) {
+        portaDirAbrir = false;
+        portaDir.paused = false;
+        portaDir.timeScale = 1;
+        portaDir.play();
+        document.getElementById("btnportadireita").innerHTML = 'Fechar porta da direita.'
+    } else {
+        portaDirAbrir = true;
+        portaDir.timeScale = -1;
+        portaDir.paused = false;
+        portaDir.play();
+        document.getElementById("btnportadireita").innerHTML = 'Abrir porta da direita.'
+    }
+}
+
+function portaEsquerda(){
+    if (portaEsqAbrir) {
+        portaEsqAbrir = false;
+        portaEsq.paused = false;
+        portaEsq.timeScale = 1;
+        portaEsq.play();
+        document.getElementById("btnportaesquerda").innerHTML = 'Fechar porta da esquerda.'
+    } else {
+        portaEsqAbrir = true;
+        portaEsq.timeScale = -1;
+        portaEsq.paused = false;
+        portaEsq.play();
+        document.getElementById("btnportaesquerda").innerHTML = 'Abrir porta da esquerda.'
+    }
+}
+
+function gavetaCima(){
+    if (gavetaCimaAbrir) {
+        gavetaCimaAbrir = false;
+        GavetaCima.paused = false;
+        GavetaCima.timeScale = 1;
+        GavetaCima.play();
+        document.getElementById("btngavetacima").innerHTML = 'Fechar gaveta de cima.'
+    } else {
+        gavetaCimaAbrir = true;
+        GavetaCima.timeScale = -1;
+        GavetaCima.paused = false;
+        GavetaCima.play();
+        document.getElementById("btngavetacima").innerHTML = 'Abrir gaveta de cima.'
+    }
+}
+
+function gavetaBaixo(){
+    if (gavetaBaixoAbrir) {
+        gavetaBaixoAbrir = false;
+        GavetaBaixo.paused = false;
+        GavetaBaixo.timeScale = 1;
+        //GavetaBaixo.reset();
+        GavetaBaixo.play();
+        document.getElementById("btngavetabaixo").innerHTML = 'Fechar gaveta de baixo.'
+    } else {
+        gavetaBaixoAbrir = true;
+        GavetaBaixo.timeScale = -1;
+        GavetaBaixo.paused = false;
+        //GavetaBaixo.reset();
+        GavetaBaixo.play();
+        document.getElementById("btngavetabaixo").innerHTML = 'Abrir gaveta de baixo.'
+    }
+}
+
+function reverseDarkMode() {
+    if (darkMode) {
+        darkMode = false;
+    } else {
+        darkMode = true;
+    }
+    checkDarkMode();
+    
+}
+
+function checkDarkMode() {
+    if (darkMode) {
+        scene.background = new THREE.Color(0xE5E5DA);
+        //document.getElementById("menu").style.backgroundColor = "#e5e5da";
+        document.getElementById("canvas_div").style.borderColor = "#e5e5da";
+        popUp.style.background = "rgba(21,21,32, 0.7)";
+        popUp.style.color = "#e5e5da";
+    } else {
+        scene.background = new THREE.Color(0x1a1a25);
+        //document.getElementById("menu").style.backgroundColor = "#1a1a25";
+        document.getElementById("canvas_div").style.borderColor = "#1a1a25";
+        popUp.style.background = "rgba(229, 229, 218, 0.7)";
+        popUp.style.color = "#1a1a25";
+    }
+}
+
+function setDay() {
+    console.log("dia")
+    darkMode = true; //a função checkDarkmode vai inverter
+    checkDarkMode();
+}
+
+function setNight() {
+    console.log("noite")
+    darkMode = false; //a função checkDarkmode vai inverter
+    checkDarkMode();
 }

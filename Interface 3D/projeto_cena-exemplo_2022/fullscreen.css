@@ -1,5 +1,6 @@
 body {
     background-color: #E5E5DA;
+    margin: 0px;
 }
 
 #overlay {
@@ -32,7 +33,38 @@ body {
     visibility: visible;
 }
 
+div {
+    display: inline;
+}
+
 .canvas {
     position: absolute;
     z-index: -1;
+    float: right;
 }
+
+.menu {
+    vertical-align: text-top;
+    background-color: #D5D5CA;
+    padding: 1vw;
+    text-align: justify;
+    margin: auto;
+}
+
+button.menu {
+    text-align: center;
+}
+
+
+
+.botaomodo {
+    width: 11.41vw;
+   text-align: center;
+}
+
+.botao-interagir {
+    width: 23.1vw;
+    
+}
+
+

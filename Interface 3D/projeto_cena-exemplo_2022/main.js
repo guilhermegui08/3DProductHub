@@ -38,6 +38,20 @@ camera.position.z = 13
 camera.lookAt(0,2,0)
 
 var GavetaBaixo, GavetaCima, portaDir, portaEsq;
+var pmremGenerator = new THREE.PMREMGenerator(renderer=renderer);
+new THREE.RGBELoader()
+	.setDataType( THREE.UnsignedByteType )
+	.load( 'HDR/hdr.hdr', function ( texture ) {
+
+		const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
+
+		scene.environment = envMap;
+
+		texture.dispose();
+		pmremGenerator.dispose();
+    
+
+	} );
 
 new THREE.GLTFLoader().load(
     'models/TV_animado.gltf',
@@ -75,9 +89,7 @@ new THREE.GLTFLoader().load(
     portaEsq = misturador.clipAction( clip );
     portaEsq.setLoop(THREE.LoopOnce);
     portaEsq.clampWhenFinished = true;
-    if (texture != 0) {
-        apply();
-    }
+    apply();
     
 }
 )

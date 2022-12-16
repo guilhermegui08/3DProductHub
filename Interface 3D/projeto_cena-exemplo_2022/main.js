@@ -1,6 +1,6 @@
 var width = 800;
 var height = 600;
-var textures = ["models/textures/Wood028_2K_Color.png", "models/textures/wood1.jpg", "models/textures/wood2.jpg"]
+var textures = ["assets/models/textures/Wood028_2K_Color.png", "assets/models/textures/wood1.jpg", "assets/models/textures/wood2.jpg"]
 
 texture = sessionStorage.getItem("texture");
 if (texture == null) {
@@ -13,12 +13,17 @@ var scene = new THREE.Scene()
 scene.background = new THREE.Color(0xE5E5DA)
 var camera = new THREE.PerspectiveCamera( 60, width / height, 1, 1000 )
 var renderer = new THREE.WebGLRenderer({canvas : document.getElementById("canvas")});
-var controls = new THREE.OrbitControls(camera, renderer.domElement)
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+document.getElementById("loading-screen").style.display = "block";
+controls.enableDamping = true;
+controls.minDistance = 10;
+controls.maxDistance = 29;
+
 
 /*var axes = new THREE.AxesHelper(10)
-scene.add(axes)*/
+scene.add(axes)
 var grid = new THREE.GridHelper()
-scene.add(grid)
+scene.add(grid)*/
 
 var candidatos = [];
 
@@ -41,7 +46,7 @@ var GavetaBaixo, GavetaCima, portaDir, portaEsq;
 var pmremGenerator = new THREE.PMREMGenerator(renderer=renderer);
 new THREE.RGBELoader()
 	.setDataType( THREE.UnsignedByteType )
-	.load( 'HDR/hdr.hdr', function ( texture ) {
+	.load( 'assets/HDR/hdr.hdr', function ( texture ) {
 
 		const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
 
@@ -54,10 +59,11 @@ new THREE.RGBELoader()
 	} );
 
 new THREE.GLTFLoader().load(
-    'models/TV_animado.gltf',
+    'assets/models/TV_animado_sala.gltf',
     function ( gltf ) {
     scene.add( gltf.scene );
-
+    document.getElementById("loading-screen").style.display = "none";
+    setInterval(check_visibility,1);
     scene.traverse( function(x) {
         if (x.isMesh) {
             x.castShadow = true;
@@ -209,15 +215,24 @@ function animate() {
 }
 
 function addLights(){
-    const lightAmb = new THREE.AmbientLight( 0xffffff, 0.5); 
+    const lightAmb = new THREE.AmbientLight( 0xffffff, 1); 
     scene.add( lightAmb );
 
     const lightDir = new THREE.DirectionalLight( 0xE5E5DA, 1 );
-    lightDir.position.set(2,8,10)
+    lightDir.position.set(8,15,10)
+    lightDir.castShadow = true;
+    const d = 20;
+    lightDir.shadow.camera.left = -d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.right = d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.top = d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.bottom = -d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.far = 50; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.bias = -0.02; //Para Corrigir Glitches Visuais
     /*const dlHelper = new THREE.DirectionalLightHelper(lightDir, 1, 0xFF0000);
     scene.add(dlHelper);*/
     scene.add( lightDir );
 }
+
 
 
 function checkTexture() {
@@ -236,7 +251,7 @@ function apply() {
      txt.wrapT = THREE.RepeatWrapping;
     //txt.minFilter = THREE.LinearMipMapLinearFilter;
         var m = new THREE.MeshStandardMaterial({map: txt}); //, color: {r: 1, g: 1, b: 1}
-        m.roughness = initmap.roughness;
+        m.roughness = 0.5;
         m.map.repeat = {x: 4, y: 4}
         //m.map.offset = {x: 0, y: -3};
         m.side = 2;
@@ -256,4 +271,26 @@ function apply() {
         scene.getObjectByName("Cube006").material = m;
         scene.getObjectByName("Cube006_1").material = m;
        
+}
+
+
+function check_visibility() {
+    max_distance = 49
+    if (/*(camera.rotation.z > 2) || (camera.rotation.z < -0.25)*/ camera.position.x < -8  || camera.position.z < -2 ) {
+        for (i = 1; i < 5; i++) {
+            scene.getObjectByName("parede" + i).visible = false;
+        }
+        //scene.getObjectByName("chão").visible = false;  
+    } else {
+        for (i = 1; i < 5; i++) {
+            scene.getObjectByName("parede" + i).visible = true;
+        }
+    }
+
+    if (camera.rotation.x > 0 ) {
+        scene.getObjectByName("chão").visible = false;  
+        return;  
+    } else {
+        scene.getObjectByName("chão").visible = true; 
+    }
 }

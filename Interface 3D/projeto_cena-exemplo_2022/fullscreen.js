@@ -1,6 +1,6 @@
 var width = window.innerWidth*0.75
 var height = window.innerHeight;
-var textures = ["models/textures/Wood028_2K_Color.png", "models/textures/wood1.jpg", "models/textures/wood2.jpg"];
+var textures = ["assets/models/textures/Wood028_2K_Color.png", "assets/models/textures/wood1.jpg", "assets/models/textures/wood2.jpg"];
 
 
 texture = sessionStorage.getItem("texture");
@@ -18,16 +18,46 @@ if (darkMode == null) {
     darkMode = darkMode == "true";
 }
 
-
+window.addEventListener( 'resize', onWindowResize, false );
 
 var scene = new THREE.Scene();
-scene.background = new THREE.Color(0xE5E5DA);
+checkDarkMode();
 var camera = new THREE.PerspectiveCamera( 60, width / height, 1, 1000 );
 var renderer = new THREE.WebGLRenderer({canvas : document.getElementById("canvas"), antialias: true, precision : "highp", powerPreference: "high-performance"});
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
+document.getElementById("loading-screen").style.display = "block";
+controls.enableDamping = true;
+controls.minDistance = 10;
+controls.maxDistance = 29;
 
-/*var axes = new THREE.AxesHelper(10);
-scene.add(axes);*/
+/*plane*/
+/*var dimensions = new THREE.PlaneGeometry(2000, 2000);
+dimensions.rotateX( - Math.PI / 2);
+var m2 = new THREE.ShadowMaterial();
+m2.opacity = 0.5
+m2.receiveShadow = true;
+var plane = new THREE.Mesh(dimensions, m2)
+plane.receiveShadow = true;
+scene.add(plane);*/
+
+
+/*luzes*/
+/*var light = new THREE.DirectionalLight(0xffffff);
+light.position.set(5.000 , 10.000, 8.000);
+light.target.position.set(0, 0, 0);
+light.castShadow = true;
+const d = 10;
+light.shadow.mapSize.width = 4096; // default
+light.shadow.mapSize.height = 4096; // default
+light.shadow.camera.left = - d;
+light.shadow.camera.right = d;
+light.shadow.camera.top = d;
+light.shadow.camera.bottom = - d;
+light.shadow.bias = - 0.0002;*/
+
+
+var axes = new THREE.AxesHelper(10);
+scene.add(axes);
 var grid = new THREE.GridHelper();
 scene.add(grid);
 
@@ -55,7 +85,7 @@ var pmremGenerator = new THREE.PMREMGenerator(renderer=renderer);
 
 new THREE.RGBELoader()
 	.setDataType( THREE.UnsignedByteType )
-	.load( 'HDR/hdr.hdr', function ( texture ) {
+	.load( 'assets/HDR/hdr.hdr', function ( texture ) {
 
 		const envMap = pmremGenerator.fromEquirectangular( texture ).texture;
 
@@ -69,10 +99,35 @@ new THREE.RGBELoader()
 
 
 new THREE.GLTFLoader().load(
-    'models/TV_animado.gltf',
+    'assets/models/TV_animado_sala.gltf',
     function ( gltf ) {
     scene.add( gltf.scene );
-    checkDarkMode();
+    new THREE.GLTFLoader().load(
+        'assets/models/flag.gltf',
+        function ( gltf ) {
+            gltf.scene.position.x = 6;
+            gltf.scene.position.y = 4.95;
+            //gltf.scene.position.z = -1;
+            gltf.scene.rotation.y = -90;
+            document.getElementById("loading-screen").style.display = "none";
+        scene.add( gltf.scene );
+        setInterval(check_visibility,1);
+        
+        scene.traverse( function(x) {
+            if (x.isMesh) {
+                x.castShadow = true;
+                x.receiveShadow = true;			
+            }
+            console.log()
+            if(x.name.includes("")) {
+                candidatos.push(x); // adiciona o elemento x ao vetor botoes    
+                console.log(x.name);  
+            }
+        })
+        var clip = THREE.AnimationClip.findByName( gltf.animations, 'flag_movement' );
+        bandeira = misturador.clipAction( clip );
+        bandeira.play();
+    })
     scene.traverse( function(x) {
         if (x.isMesh) {
             x.castShadow = true;
@@ -107,31 +162,6 @@ new THREE.GLTFLoader().load(
 }
 )
 
-new THREE.GLTFLoader().load(
-    'models/flag.gltf',
-    function ( gltf ) {
-        gltf.scene.position.x = 6;
-        gltf.scene.position.y = 4.95;
-        //gltf.scene.position.z = -1;
-        gltf.scene.rotation.y = -90;
-    scene.add( gltf.scene );
-
-    scene.traverse( function(x) {
-        if (x.isMesh) {
-            x.castShadow = true;
-            x.receiveShadow = true;			
-        }
-        console.log()
-        if(x.name.includes("")) {
-            candidatos.push(x); // adiciona o elemento x ao vetor botoes    
-            console.log(x.name);  
-        }
-    })
-    var clip = THREE.AnimationClip.findByName( gltf.animations, 'flag_movement' );
-    bandeira = misturador.clipAction( clip );
-    bandeira.play();
-})
-
 var gavetaBaixoAbrir = true;
 var gavetaCimaAbrir = true;
 var portaDirAbrir = true;
@@ -147,21 +177,25 @@ document.onkeydown = function(e) {
         window.location.replace("index.html");
     } else if (key_press == "d") {
         reverseDarkMode();
+    } else if (key_press == "h") {
+        help();
     }
 
 }
-let raycaster = new THREE.Raycaster()
-let rato = new THREE.Vector2()
+let raycaster = new THREE.Raycaster();
+let rato = new THREE.Vector2();
 
 window.onclick = function(evento) {
-    rato.x = (evento.clientX / (width)) * 2 - 1
-    rato.y = -(evento.clientY / height) * 2 + 1
+    rato.x = (evento.clientX / (width)) * 2 - 1;
+    rato.y = -(evento.clientY / height) * 2 + 1;
     // invocar raycaster
     pegarPrimeiro();
 }
 
+
+
 function pegarPrimeiro() {
-    raycaster.setFromCamera(rato, camera)
+    raycaster.setFromCamera(rato, camera);
     console.log(rato);
     var intersetados = raycaster.intersectObjects(candidatos, true);
     console.log("intersected: ", intersetados);
@@ -179,13 +213,13 @@ function pegarPrimeiro() {
         parent = intersetados[0].object.parent.name;
         switch (parent) {
             case "drawerDown":
-                gavetaBaixo()
+                gavetaBaixo();
                 break;
             case "drawerUp":
-                gavetaCima()
+                gavetaCima();
                 break;
             case "doorRight":
-                portaDireita()
+                portaDireita();
                 break;
             case "doorLeft":
                 portaEsquerda();
@@ -203,6 +237,13 @@ document.getElementById("btnportaesquerda").onclick = portaEsquerda;
 document.getElementById("btngavetacima").onclick = gavetaCima;
 document.getElementById("btngavetabaixo").onclick = gavetaBaixo;
 document.getElementById("mode_selector").onclick = reverseDarkMode;
+document.getElementById("btn-ajuda").onclick = help;
+document.getElementById("btn-voltar").onclick = function() {window.location.replace("index.html");};
+
+
+//? resize window
+
+window.addEventListener("resize", onWindowResize);
 
 
 
@@ -218,18 +259,50 @@ setTimeout(function() {
 addLights();
 animate();
 
+
+
 function animate() {
     requestAnimationFrame( animate );
+    controls.update();
     misturador.update( relogio.getDelta() );
     renderer.render( scene, camera );
 }
 
+function check_visibility() {
+    max_distance = 49
+    if (/*(camera.rotation.z > 2) || (camera.rotation.z < -0.25)*/ camera.position.x < -8  || camera.position.z < -2 ) {
+        for (i = 1; i < 5; i++) {
+            scene.getObjectByName("parede" + i).visible = false;
+        }
+        //scene.getObjectByName("chão").visible = false;  
+    } else {
+        for (i = 1; i < 5; i++) {
+            scene.getObjectByName("parede" + i).visible = true;
+        }
+    }
+
+    if (camera.rotation.x > 0 ) {
+        scene.getObjectByName("chão").visible = false;  
+        return;  
+    } else {
+        scene.getObjectByName("chão").visible = true; 
+    }
+}
+
 function addLights(){
-    const lightAmb = new THREE.AmbientLight( 0xffffff, 0.5); 
+    const lightAmb = new THREE.AmbientLight( 0xffffff, 1); 
     scene.add( lightAmb );
 
     const lightDir = new THREE.DirectionalLight( 0xE5E5DA, 1 );
-    lightDir.position.set(2,8,10);
+    lightDir.position.set(8,15,10)
+    lightDir.castShadow = true;
+    const d = 20;
+    lightDir.shadow.camera.left = -d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.right = d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.top = d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.bottom = -d; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.camera.far = 50; // Define o Cone de Projeção das Sombras
+    lightDir.shadow.bias = -0.02; //Para Corrigir Glitches Visuais
     /*const dlHelper = new THREE.DirectionalLightHelper(lightDir, 1, 0xFF0000);
     scene.add(dlHelper);*/
     scene.add( lightDir );
@@ -376,10 +449,10 @@ function checkDarkMode() {
         }
         //document.getElementById("mode_icon").style.background = "linear-gradient(312.75deg, #D9C722 0%, #BD620D 85.94%)";
     } else {
-        scene.background = new THREE.Color(0xF8EFE8);
+        scene.background = new THREE.Color(0xEFDFA6);
         //document.getElementById("menu").style.backgroundColor = "#1a1a25";
         //document.getElementById("canvas_div").style.borderColor = "#1a1a25";
-        document.getElementById("body").style.backgroundColor = "#FFDFA6";
+        document.getElementById("body").style.backgroundColor = "#EFDFA6";
         popUp.style.background = "rgba(229, 229, 218, 0.7)";
         popUp.style.color = "#1a1a25";
         document.getElementById("col-menu").classList.remove("menu_dark");
@@ -408,8 +481,9 @@ function apply() {
      txt.wrapS = THREE.RepeatWrapping;
      txt.wrapT = THREE.RepeatWrapping;
     //txt.minFilter = THREE.LinearMipMapLinearFilter;
-        var m = new THREE.MeshStandardMaterial({map: txt}); //, color: {r: 1, g: 1, b: 1}
-        m.roughness = initmap.roughness;
+        var m = new THREE.MeshStandardMaterial({map: txt});
+         //, color: {r: 1, g: 1, b: 1}
+        m.roughness = 0.5;
         m.map.repeat = {x: 4, y: 4}
         //m.map.offset = {x: 0, y: -3};
         m.side = 2;
@@ -429,4 +503,15 @@ function apply() {
         scene.getObjectByName("Cube006").material = m;
         scene.getObjectByName("Cube006_1").material = m;
        
+}
+
+function onWindowResize(){
+    console.log("resized");
+    width = window.width;
+    height = window.height;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
 }

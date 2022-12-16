@@ -30,7 +30,11 @@
         <div class="row">
             <div id="canvas_div" class="col-sm-9">
                 <div>
-                    <canvas id="canvas"></canvas>
+                    <div id="loading-screen"><h1>Loading ...</h1><div class="spinner-border" role="status">
+                    </div></div>
+                  <canvas id="canvas">
+                      
+                  </canvas>
                 </div>
             </div>
             <div class="col-sm-3 menu_light" id="col-menu">
@@ -50,6 +54,9 @@
                     <button class="botao-interagir btn button_light" id="btngavetabaixo">Abrir gaveta de baixo.</button>
                     <text class="text-justify">Clique no objeto para interagir com o mesmo.</text><br>
                     <br>
+                    <button id="btn-ajuda" class="botao-interagir btn button_light">Ajuda</button>
+                    <text class="text-justify" id="ajuda">(H) Ajuda.</text><br>
+                    <button class="botao-interagir btn button_light" id="btn-voltar">Voltar</button>
                     <text class="text-justify">(ESC) Sair de modo tela cheia.</text><br>
 
                 </div>

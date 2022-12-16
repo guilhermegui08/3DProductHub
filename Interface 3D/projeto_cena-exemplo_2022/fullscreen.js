@@ -56,10 +56,10 @@ light.shadow.camera.bottom = - d;
 light.shadow.bias = - 0.0002;*/
 
 
-var axes = new THREE.AxesHelper(10);
+/*var axes = new THREE.AxesHelper(10);
 scene.add(axes);
 var grid = new THREE.GridHelper();
-scene.add(grid);
+scene.add(grid);*/
 
 var candidatos = [];
 
@@ -449,10 +449,10 @@ function checkDarkMode() {
         }
         //document.getElementById("mode_icon").style.background = "linear-gradient(312.75deg, #D9C722 0%, #BD620D 85.94%)";
     } else {
-        scene.background = new THREE.Color(0xEFDFA6);
+        scene.background = new THREE.Color(0xE8E8E8);
         //document.getElementById("menu").style.backgroundColor = "#1a1a25";
         //document.getElementById("canvas_div").style.borderColor = "#1a1a25";
-        document.getElementById("body").style.backgroundColor = "#EFDFA6";
+        document.getElementById("body").style.backgroundColor = "#E8E8E8";
         popUp.style.background = "rgba(229, 229, 218, 0.7)";
         popUp.style.color = "#1a1a25";
         document.getElementById("col-menu").classList.remove("menu_dark");
@@ -460,6 +460,7 @@ function checkDarkMode() {
         for (let i = 0; i < btns.length; i++) {
             btns[i].classList.remove("button_dark");
             btns[i].classList.add("button_light");
+            btns[i].style.color = "#f4f4f2";
         }
     }
 }

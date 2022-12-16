@@ -112,7 +112,7 @@ document.onkeydown = function(e) {
     if (key_press == "d") {
         if (darkMode) {
             darkMode = false;
-            scene.background = new THREE.Color(0xE5E5DA);
+            scene.background = new THREE.Color(0xE8E8E8);
         } else {
             darkMode = true;
             scene.background = new THREE.Color(0x1a1a25);

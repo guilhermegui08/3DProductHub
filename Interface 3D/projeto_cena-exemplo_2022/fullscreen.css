@@ -62,11 +62,11 @@ button.menu {
 
 
 .menu_light {
-    background: #f4f4f2;
+    background: #EAE7D6;
 }
 
 .menu_dark {
-     background: #8A7759;
+     background: #586062;
      color: #000;
 }
 
@@ -84,9 +84,9 @@ button.menu {
 }
 
 .button_dark {
-    background: #FEDFA7;
+    background: #a1b1a7;
     border-radius: 5px;
-    color: #4D4538;
+    color: #fff;
 }
 
 .button_dark:hover {

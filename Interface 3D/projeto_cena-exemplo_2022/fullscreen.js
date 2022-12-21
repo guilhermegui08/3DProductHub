@@ -435,27 +435,22 @@ function checkDarkMode() {
         popUp = document.getElementById("popup");
     }
     if (darkMode) {
-        scene.background = new THREE.Color(0x1F1C17);
-        //document.getElementById("menu").style.backgroundColor = "#e5e5da";
-        //document.getElementById("canvas_div").style.borderColor = "#e5e5da";
-        document.getElementById("body").style.backgroundColor = "#8A7759";
+        scene.background = new THREE.Color(0x2a2e2f);
+        document.getElementById("body").style.backgroundColor = "#586062";
         popUp.style.background = "rgba(21,21,32, 0.7)";
-        popUp.style.color = "#e5e5da";
+        popUp.style.color = "#586062";
         document.getElementById("col-menu").classList.remove("menu_light");
         document.getElementById("col-menu").classList.add("menu_dark");
         for (let i = 0; i < btns.length; i++) {
             btns[i].classList.remove("button_light");
             btns[i].classList.add("button_dark");
-            btns[i].style.color = "#000";
+            btns[i].style.color = "#fff";
         }
-        //document.getElementById("mode_icon").style.background = "linear-gradient(312.75deg, #D9C722 0%, #BD620D 85.94%)";
     } else {
-        scene.background = new THREE.Color(0xE8E8E8);
-        //document.getElementById("menu").style.backgroundColor = "#1a1a25";
-        //document.getElementById("canvas_div").style.borderColor = "#1a1a25";
-        document.getElementById("body").style.backgroundColor = "#E8E8E8";
+        scene.background = new THREE.Color(0xE5E5DA);
+        document.getElementById("body").style.backgroundColor = "#EAE7D6";
         popUp.style.background = "rgba(229, 229, 218, 0.7)";
-        popUp.style.color = "#1a1a25";
+        popUp.style.color = "#EAE7D6";
         document.getElementById("col-menu").classList.remove("menu_dark");
         document.getElementById("col-menu").classList.add("menu_light");
         for (let i = 0; i < btns.length; i++) {

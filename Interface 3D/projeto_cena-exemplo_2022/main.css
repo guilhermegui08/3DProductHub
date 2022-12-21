@@ -8,13 +8,78 @@
     display: none;
   }
 
+  #btn_fullscreen {
+    height: 4.82vh;
+    vertical-align: top;  
+  }
+
   body {
-    background: #F4F4F2;
+    font-family: 'Poppins',Arial,sans-serif;
+  }
+
+  .marca-nome {
+    font-size: 14px;
+    font-weight: 600;
+    /*color: #1c1c1c;*/
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: underline;
+  }
+
+  .selector {
+    /*color: #1c1c1c;*/
+    padding-left: 10px;
+  }
+
+  .dropdown-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  .image-selector {
+    vertical-align: top;
+    top: 4px;
+    left: 13px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .titulo-produto {
+    /*color: #1c1c1c;*/
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: normal;
+  }
+  
+
+  .dark_mode_btn {
+    width: 9.27vw;
+    height: 3.98vh;
+    border-radius: 50px;
+    border: 0;
+    position: absolute;
+    left: 95.36vw;
+    top: 9.36vh;
   }
 
 
   .header {
-    width: 99%;
+    width: 97.81vw;
+  }
+
+  .wood_btn {
+    width: 2.708vw;
+    height: 4.82vh;
+    border-radius: 50%;
+    margin-bottom: 2.81vh;
+    display: inline;
+    margin-left: 17.5px;
+  }
+
+  .wood_btn:hover {
+    border: 5px solid #436e99;
   }
 
   .light_button {

@@ -1,6 +1,23 @@
 var width = 800;
 var height = 600;
-var textures = ["assets/models/textures/Wood028_2K_Color.png", "assets/models/textures/wood1.jpg", "assets/models/textures/wood2.jpg"]
+var textures = ["assets/models/textures/Wood028_2K_Color.png", "assets/textures/Wood_024_basecolor.jpg", "assets/textures/Wood_022_basecolor.jpg"];
+var normals = ["assets/textures/Wood_024_normal.jpg", "assets/textures/Wood_024_normal.jpg", "assets/textures/Wood_022_normal.jpg"];
+var roughnesses = ["assets/textures/Wood_024_roughness.jpg", "assets/textures/Wood_024_roughness.jpg", "assets/textures/Wood_022_roughness.jpg"];
+var madeiras = ["Carvalho Escurecido", "Nogueira", "Acácia"]
+
+light_dark_switch = document.getElementById("darkModeSelector");
+
+var darkMode = sessionStorage.getItem("darkMode");
+if (darkMode == null) {
+    darkMode = false;
+    sessionStorage.setItem("darkMode", darkMode);
+} else {
+    darkMode = darkMode == "true";
+}
+light_dark_switch.checked = darkMode;
+var scene = new THREE.Scene()
+scene.background = new THREE.Color(0xE5E5DA)
+checkDarkMode(); //cena veio para trás pq esta função latera fundo da cena
 
 texture = sessionStorage.getItem("texture");
 if (texture == null) {
@@ -9,8 +26,7 @@ if (texture == null) {
 }
 console.log("init: ", texture);
 
-var scene = new THREE.Scene()
-scene.background = new THREE.Color(0xE5E5DA)
+
 var camera = new THREE.PerspectiveCamera( 60, width / height, 1, 1000 )
 var renderer = new THREE.WebGLRenderer({canvas : document.getElementById("canvas")});
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -69,7 +85,7 @@ new THREE.GLTFLoader().load(
             x.castShadow = true;
             x.receiveShadow = true;			
         }
-        candidatos = scene.getObjectByName("rack").children;
+        //candidatos = scene.getObjectByName("rack").children;
         if(x.name.includes("drawer") || x.name.includes("door")) {
             candidatos.push(x); // adiciona o elemento x ao vetor botoes    
             console.log(x.name);  
@@ -124,83 +140,114 @@ document.onkeydown = function(e) {
 let raycaster = new THREE.Raycaster()
 let rato = new THREE.Vector2()
 
-window.onclick = function(evento) {
-    rato.x = (evento.clientX / width) * 2 - 1
-    rato.y = -(evento.clientY / height) * 2 + 1
-    // invocar raycaster
-    pegarPrimeiro();
+document.getElementById("canvas").onclick = function (event) {
+    event.preventDefault();
+    var rect = event.target.getBoundingClientRect();
+    rato.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+    console.log("MouseX:",rato.x)
+    rato.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
+    console.log("MouseY:",rato.y)
+    pegarPrimeiro(); //identifica o Primeiro Objeto em
+  };
+
+  light_dark_switch.onclick = function() {
+    reverseDarkMode();
+    return 0;
+  }
+
+function portaDireita(){
+    if (portaDirAbrir) {
+        portaDirAbrir = false;
+        portaDir.paused = false;
+        portaDir.timeScale = 1;
+        portaDir.play();
+    } else {
+        portaDirAbrir = true;
+        portaDir.timeScale = -1;
+        portaDir.paused = false;
+        portaDir.play();
+    }
+}
+
+function portaEsquerda(){
+    if (portaEsqAbrir) {
+        portaEsqAbrir = false;
+        portaEsq.paused = false;
+        portaEsq.timeScale = 1;
+        portaEsq.play();
+    } else {
+        portaEsqAbrir = true;
+        portaEsq.timeScale = -1;
+        portaEsq.paused = false;
+        portaEsq.play();
+    }
+}
+
+function gavetaCima(){
+    if (gavetaCimaAbrir) {
+        gavetaCimaAbrir = false;
+        GavetaCima.paused = false;
+        GavetaCima.timeScale = 1;
+        GavetaCima.play();
+    } else {
+        gavetaCimaAbrir = true;
+        GavetaCima.timeScale = -1;
+        GavetaCima.paused = false;
+        GavetaCima.play();
+    }
+}
+
+function gavetaBaixo(){
+    if (gavetaBaixoAbrir) {
+        gavetaBaixoAbrir = false;
+        GavetaBaixo.paused = false;
+        GavetaBaixo.timeScale = 1;
+        //GavetaBaixo.reset();
+        GavetaBaixo.play();
+    } else {
+        gavetaBaixoAbrir = true;
+        GavetaBaixo.timeScale = -1;
+        GavetaBaixo.paused = false;
+        //GavetaBaixo.reset();
+        GavetaBaixo.play();
+    }
 }
 
 function pegarPrimeiro() {
-    raycaster.setFromCamera(rato, camera)
-    console.log(rato);
+    raycaster.setFromCamera(rato, camera);
+    console.log(rato);    
     var intersetados = raycaster.intersectObjects(candidatos, true);
+    console.log("intersected: ", intersetados);
     if (intersetados.length > 0) {
+        // fazer o que houver a fazer com o primeiro interesetado
         var parent;
+        /*for (var i = 0; i < intersetados.length; i++) {
+
+            parent = intersetados[i].object.parent.name;
+        }*/
+        if (intersetados[0].object.name == "Plane") {
+            help();
+            return;
+        }
         parent = intersetados[0].object.parent.name;
-        console.log("inter: ", intersetados);
-        console.log(parent);
         switch (parent) {
             case "drawerDown":
-                if (gavetaBaixoAbrir) {
-                    gavetaBaixoAbrir = false;
-                    GavetaBaixo.paused = false;
-                    GavetaBaixo.timeScale = 1;
-                    //GavetaBaixo.reset();
-                    GavetaBaixo.play();
-                } else {
-                    gavetaBaixoAbrir = true;
-                    GavetaBaixo.timeScale = -1;
-                    GavetaBaixo.paused = false;
-                    //GavetaBaixo.reset();
-                    GavetaBaixo.play();
-                }
+                gavetaBaixo();
                 break;
             case "drawerUp":
-                if (gavetaCimaAbrir) {
-                    gavetaCimaAbrir = false;
-                    GavetaCima.paused = false;
-                    GavetaCima.timeScale = 1;
-                    GavetaCima.play();
-                } else {
-                    gavetaCimaAbrir = true;
-                    GavetaCima.timeScale = -1;
-                    GavetaCima.paused = false;
-                    GavetaCima.play();
-                }
+                gavetaCima();
                 break;
             case "doorRight":
-                if (portaDirAbrir) {
-                    portaDirAbrir = false;
-                    portaDir.paused = false;
-                    portaDir.timeScale = 1;
-                    portaDir.play();
-                } else {
-                    portaDirAbrir = true;
-                    portaDir.timeScale = -1;
-                    portaDir.paused = false;
-                    portaDir.play();
-                }
+                portaDireita();
                 break;
             case "doorLeft":
-                if (portaEsqAbrir) {
-                    portaEsqAbrir = false;
-                    portaEsq.paused = false;
-                    portaEsq.timeScale = 1;
-                    portaEsq.play();
-                } else {
-                    portaEsqAbrir = true;
-                    portaEsq.timeScale = -1;
-                    portaEsq.paused = false;
-                    portaEsq.play();
-                }
+                portaEsquerda();
                 break;
             default:
-                console.log("error");
+                console.log(parent, "error");
         }
     }
     console.log("raicaster")
-    checkTexture();
 }
 
 
@@ -212,6 +259,7 @@ function animate() {
     requestAnimationFrame( animate );
     misturador.update( relogio.getDelta() );
     renderer.render( scene, camera );
+    checkTexture();
 }
 
 function addLights(){
@@ -249,8 +297,9 @@ function apply() {
      txt.encoding = THREE.sRGBEncoding
      txt.wrapS = THREE.RepeatWrapping;
      txt.wrapT = THREE.RepeatWrapping;
-    //txt.minFilter = THREE.LinearMipMapLinearFilter;
-        var m = new THREE.MeshStandardMaterial({map: txt}); //, color: {r: 1, g: 1, b: 1}
+     map = loader.load(normals[texture]);
+     roughness_map = loader.load(roughnesses[texture]);
+        var m = new THREE.MeshStandardMaterial({map: txt, normalMap: map, roughnessMap: roughness_map}); //, color: {r: 1, g: 1, b: 1}
         m.roughness = 0.5;
         m.map.repeat = {x: 4, y: 4}
         //m.map.offset = {x: 0, y: -3};
@@ -264,6 +313,7 @@ function apply() {
         }*/
         
         //m.map = initmap;
+        document.getElementById("madeira_id").innerHTML = '<h4 class="text-left" style="display: inline;" id="madeira_id"></h4>' + madeiras[texture] + '</h4>';
         scene.getObjectByName("Cube017_1").material = m;
         scene.getObjectByName("Cube012_1").material = m;
         scene.getObjectByName("Cube015_1").material = m;
@@ -293,4 +343,49 @@ function check_visibility() {
     } else {
         scene.getObjectByName("chão").visible = true; 
     }
+}
+
+
+/*dark mode and light mode*/
+
+
+function reverseDarkMode() {
+    console.log("reversing");
+    if (!light_dark_switch.checked) {
+        darkMode = false;    
+    } else {
+        darkMode = true;
+    }   
+    checkDarkMode();
+    
+}
+
+function checkDarkMode() {
+    console.log("dark_mode: ", darkMode);
+    sessionStorage.setItem("darkMode", darkMode);
+    btns = document.getElementsByTagName('button');
+    console.log(btns);
+
+    if (darkMode) {
+        scene.background = new THREE.Color(0x2a2e2f);
+        document.getElementById("header").src = "assets/imagens/header_dark.svg";
+        document.getElementById("body").style.backgroundColor = "#586062";
+        document.getElementById("body").style.color = "#fff";
+        
+    } else {
+        scene.background = new THREE.Color(0xE5E5DA);
+        document.getElementById("header").src = "assets/imagens/header.svg";
+        document.getElementById("body").style.backgroundColor = "#EAE7D6";
+        document.getElementById("body").style.color = "#000";
+    }
+}
+
+function setDay() {
+    darkMode = false; //a função checkDarkmode vai inverter
+    checkDarkMode();
+}
+
+function setNight() {
+    darkMode = true; //a função checkDarkmode vai inverter
+    checkDarkMode();
 }

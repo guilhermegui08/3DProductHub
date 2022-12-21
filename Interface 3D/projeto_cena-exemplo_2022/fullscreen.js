@@ -1,7 +1,8 @@
 var width = window.innerWidth*0.75
 var height = window.innerHeight;
-var textures = ["assets/models/textures/Wood028_2K_Color.png", "assets/models/textures/wood1.jpg", "assets/models/textures/wood2.jpg"];
-
+var textures = ["assets/models/textures/Wood028_2K_Color.png", "assets/textures/Wood_024_basecolor.jpg", "assets/textures/Wood_022_basecolor.jpg"];
+var normals = ["assets/textures/Wood_024_normal.jpg", "assets/textures/Wood_024_normal.jpg", "assets/textures/Wood_022_normal.jpg"];
+var roughnesses = ["assets/textures/Wood_024_roughness.jpg", "assets/textures/Wood_024_roughness.jpg", "assets/textures/Wood_022_roughness.jpg"];
 
 texture = sessionStorage.getItem("texture");
 if (texture == null) {
@@ -481,9 +482,9 @@ function apply() {
      txt.encoding = THREE.sRGBEncoding
      txt.wrapS = THREE.RepeatWrapping;
      txt.wrapT = THREE.RepeatWrapping;
-    //txt.minFilter = THREE.LinearMipMapLinearFilter;
-        var m = new THREE.MeshStandardMaterial({map: txt});
-         //, color: {r: 1, g: 1, b: 1}
+     map = loader.load(normals[texture]);
+     roughness_map = loader.load(roughnesses[texture]);
+        var m = new THREE.MeshStandardMaterial({map: txt, normalMap: map, roughnessMap: roughness_map}); //, color: {r: 1, g: 1, b: 1}
         m.roughness = 0.5;
         m.map.repeat = {x: 4, y: 4}
         //m.map.offset = {x: 0, y: -3};

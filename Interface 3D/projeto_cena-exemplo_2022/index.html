@@ -13,39 +13,57 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="switch_button.css">
 </head>
-<body>
+<body id="body">
     <!-- navbar -->
     <div class="text-center" style="margin-bottom: 2.13vh">
-        <img src="assets/imagens/header.svg " class="header">
+        <img src="assets/imagens/header.svg" id="header" class="header">
     </div>
+    <label class="switch dark_mode_btn">
+        <input type="checkbox" id="darkModeSelector">
+        <span class="slider round"></span>
+    </label>
+  
     <div class="spacer"> <!--keeps space of he border-->
         <div class="row">
             <div class="col-sm-6">
                 <div style="display: inline;">
-                    <div id="loading-screen"><h1 id="text-loading-screen">Loading ...</h1><div class="spinner-border" role="status">
+                    <div id="loading-screen"><h1 id="text-loading-screen">Loading . ..</h1><div class="spinner-border" role="status">
                         </div></div>
                     <canvas id="canvas">
                     </canvas>
                 </div>
-            </div>
-            <div class="col-sm-1">
-                <div style="display: inline; height: 100vh">
-                    <button style="width: 5vw; height: 5vh; background-image: url('assets/models/textures/Wood028_2K_Color.png')" id="texture_0"></button><br>
-                    <button style="width: 5vw; height: 5vh; background-image: url('assets/models/textures/wood1.jpg')" id="texture_1"></button><br>
-                    <button style="width: 5vw; height: 5vh; background-image: url('assets/models/textures/wood2.jpg')" id="texture_2"></button>
+            </div> 
+            <div class="col-sm-5">
+                <div class="marca-nome">
+                    LA REDOUTE INTERIOURS
                 </div>
-            </div>            
+                <div class="titulo-produto">
+                    <h3>Móvel de interior</h3>
+                </div>
+                <br>
+                <div style="display: inline;width: 55%;">
+                    <h4 class="text-left" style="display: inline;" id="madeira_id">Carvalho Escurecido</h4>
+                </div>
+                <div style="display: inline;margin-left: 30%;" class="selector text-end">
+                    <!--carvalho escurecido-->
+                    <!--nogueira-->
+                    <!--pinheio-->
+                    <button style="background-image: url('assets/models/textures/Wood028_2K_Color.png')" id="texture_0" class="wood_btn"></button>
+                    <button style="background-image: url('assets/textures/wood_table_001_2k.blend/textures/wood_table_001_diff_2k.jpg')" id="texture_1" class="wood_btn"></button>
+                    <button style="background-image: url('assets/textures/Wood_022_basecolor.jpg')" id="texture_2" class="wood_btn"></button>
+                </div>
+                <hr>
+            </div>        
         </div>
-        <div style="display: block;">
-            <p>
-                <a href="fullscreen.html">
-                    <button class="btn light_button" id="btn_fullscreen">fullscreen</button>
-                </a>
-                
-            </p>
-    
-        </div>
+        <div class="col-sm-6">
+            <br>
+            
+            <a href="fullscreen.html">
+                <button class="btn light_button" id="btn_fullscreen">fullscreen</button>
+            </a>
+        </div> 
     </div>
     <script src="/node_modules/three/build/three.min.js"></script>
     <script src="/node_modules/three/examples/js/loaders/GLTFLoader.js"></script>

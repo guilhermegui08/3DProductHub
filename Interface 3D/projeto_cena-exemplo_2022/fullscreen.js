@@ -3,6 +3,7 @@ var height = window.innerHeight;
 var textures = ["assets/models/textures/Wood028_2K_Color.png", "assets/textures/Wood_024_basecolor.jpg", "assets/textures/Wood_022_basecolor.jpg"];
 var normals = ["assets/textures/Wood_024_normal.jpg", "assets/textures/Wood_024_normal.jpg", "assets/textures/Wood_022_normal.jpg"];
 var roughnesses = ["assets/textures/Wood_024_roughness.jpg", "assets/textures/Wood_024_roughness.jpg", "assets/textures/Wood_022_roughness.jpg"];
+var lightAmb;
 
 texture = sessionStorage.getItem("texture");
 if (texture == null) {
@@ -10,6 +11,12 @@ if (texture == null) {
     sessionStorage.setItem("texture", texture);
 }
 console.log("init: ", texture);
+
+luminosidade = sessionStorage.getItem("luminosidade");
+if (luminosidade == null) {
+    luminosidade = 1.5;
+    sessionStorage.setItem("luminosidade", luminosidade);
+}
 
 var darkMode = sessionStorage.getItem("darkMode");
 if (darkMode == null) {
@@ -22,6 +29,12 @@ if (darkMode == null) {
 window.addEventListener( 'resize', onWindowResize, false );
 
 var scene = new THREE.Scene();
+if (!darkMode) {
+    document.getElementById("mode_selector").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16"><path id="mode_icon" d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>';
+
+} else {
+    document.getElementById("mode_selector").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16"><path id="mode_icon" d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>';
+}
 checkDarkMode();
 var camera = new THREE.PerspectiveCamera( 60, width / height, 1, 1000 );
 var renderer = new THREE.WebGLRenderer({canvas : document.getElementById("canvas"), antialias: true, precision : "highp", powerPreference: "high-performance"});
@@ -106,8 +119,9 @@ new THREE.GLTFLoader().load(
     new THREE.GLTFLoader().load(
         'assets/models/flag.gltf',
         function ( gltf ) {
-            gltf.scene.position.x = 6;
-            gltf.scene.position.y = 4.95;
+            gltf.scene.position.x = -9.375;
+            gltf.scene.position.y = 0.05;
+            gltf.scene.position.z = -1;
             //gltf.scene.position.z = -1;
             gltf.scene.rotation.y = -90;
             document.getElementById("loading-screen").style.display = "none";
@@ -175,7 +189,7 @@ document.onkeydown = function(e) {
     console.log(key_press);
     if (key_press == "Escape") {
         //history.pushState(-1, null);
-        window.location.replace("index.html");
+        window.location.replace("productPage.html");
     } else if (key_press == "d") {
         reverseDarkMode();
     } else if (key_press == "h") {
@@ -239,8 +253,15 @@ document.getElementById("btngavetacima").onclick = gavetaCima;
 document.getElementById("btngavetabaixo").onclick = gavetaBaixo;
 document.getElementById("mode_selector").onclick = reverseDarkMode;
 document.getElementById("btn-ajuda").onclick = help;
-document.getElementById("btn-voltar").onclick = function() {window.location.replace("index.html");};
+document.getElementById("btn-voltar").onclick = function() {window.location.replace("productPage.html");};
+document.getElementById("btn_lum_baixo").onclick = function() {luminosidade = 0.5; sessionStorage.setItem("luminosidade", luminosidade);updateLuminosidade();}
+document.getElementById("btn_lum_medio").onclick = function() {luminosidade = 1.5; sessionStorage.setItem("luminosidade", luminosidade);updateLuminosidade();}
+document.getElementById("btn_lum_alto").onclick = function() {luminosidade = 2.5; sessionStorage.setItem("luminosidade", luminosidade);updateLuminosidade();}
 
+
+function updateLuminosidade() {
+    lightAmb.intensity = luminosidade;
+}
 
 //? resize window
 
@@ -291,7 +312,7 @@ function check_visibility() {
 }
 
 function addLights(){
-    const lightAmb = new THREE.AmbientLight( 0xffffff, 1); 
+    lightAmb = new THREE.AmbientLight( 0xffffff, luminosidade); 
     scene.add( lightAmb );
 
     const lightDir = new THREE.DirectionalLight( 0xE5E5DA, 1 );
@@ -315,7 +336,7 @@ function help() {
         return;
     }
     helping = true;
-    popUp.innerHTML = "<h1>Para voltar pressione a tecla 'ESC'</h1>";
+    popUp.innerHTML = "<h2>Para voltar pressione a tecla 'ESC'</h2>";
     popUp.style.visibility = "visible";
 
     setTimeout(function() {
@@ -323,7 +344,7 @@ function help() {
     }, 2000);
 
     setTimeout(function() {
-        popUp.innerHTML = "<h1>Clique nas gavetas e portas para as abrir ou fechar</h1>";
+        popUp.innerHTML = "<h2>Clique nas gavetas e portas para as abrir ou fechar</h2>";
         popUp.style.visibility = "visible"; 
     }, 2500);
 
@@ -332,7 +353,7 @@ function help() {
     }, 4500);
 
     setTimeout(function() {
-        popUp.innerHTML = "<h1>Para mudar o tema pressione a tecla 'D'</h1>";
+        popUp.innerHTML = "<h2>Para mudar o tema pressione a tecla 'D'</h2>";
         popUp.style.visibility = "visible"; 
     }, 5000);
 
@@ -421,7 +442,7 @@ function reverseDarkMode() {
     
     } else {
         darkMode = true;
-        document.getElementById("mode_selector").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="url(\'#myGradient\')" class="bi bi-brightness-high-fill" viewBox="0 0 16 16"><path id="mode_icon" d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/><defs><linearGradient id="myGradient" gradientTransform="rotate(312.75)"><stop offset="0%" stop-color="#D9C722" /><stop offset="85.94%" stop-color="#BD620D" /></linearGradient></defs></svg>';
+        document.getElementById("mode_selector").innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16"><path id="mode_icon" d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/><defs><linearGradient id="myGradient" gradientTransform="rotate(312.75)"><stop offset="0%" stop-color="#D9C722" /><stop offset="85.94%" stop-color="#BD620D" /></linearGradient></defs></svg>';
     }   
     checkDarkMode();
     
@@ -437,8 +458,6 @@ function checkDarkMode() {
     if (darkMode) {
         scene.background = new THREE.Color(0x2a2e2f);
         document.getElementById("body").style.backgroundColor = "#586062";
-        popUp.style.background = "rgba(21,21,32, 0.7)";
-        popUp.style.color = "#586062";
         document.getElementById("col-menu").classList.remove("menu_light");
         document.getElementById("col-menu").classList.add("menu_dark");
         for (let i = 0; i < btns.length; i++) {
@@ -446,11 +465,11 @@ function checkDarkMode() {
             btns[i].classList.add("button_dark");
             btns[i].style.color = "#fff";
         }
+        document.getElementById("menu").style.color = "#fff";
+        document.getElementById("loading-screen").style.color = "#fff";
     } else {
         scene.background = new THREE.Color(0xE5E5DA);
         document.getElementById("body").style.backgroundColor = "#EAE7D6";
-        popUp.style.background = "rgba(229, 229, 218, 0.7)";
-        popUp.style.color = "#EAE7D6";
         document.getElementById("col-menu").classList.remove("menu_dark");
         document.getElementById("col-menu").classList.add("menu_light");
         for (let i = 0; i < btns.length; i++) {
@@ -458,6 +477,8 @@ function checkDarkMode() {
             btns[i].classList.add("button_light");
             btns[i].style.color = "#f4f4f2";
         }
+        document.getElementById("menu").style.color = "#000";
+        document.getElementById("loading-screen").style.color = "#000";
     }
 }
 

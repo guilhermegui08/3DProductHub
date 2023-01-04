@@ -1,63 +1,45 @@
-/* The switch - the box around the slider */
-.switch {
-    /*position: relative;*/
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+  #div_switch {
     position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left:  91.38541666666667vw;
+    top: 10.76426264800861vh;
+  }
+  
+  #darkModeSelector {
+    
     background-color: #586062;
-    -webkit-transition: .4s;
-    transition: .4s;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(161, 177, 167)" class="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>');
+    height: 4.628632938643703vh;
+    width: 4.427083333333333vw;
+    background-size: 40%;
+    border: 0px;
   }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: #a1b1a7;
-    -webkit-transition: .4s;
-    transition: .4s;
+
+  #darkModeSelector:checked {
+    background-color: #eae7d6;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(67, 110, 153)" class="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>');
   }
-  
-  input:checked + .slider {
-    background-color: #EAE7D6;
+
+  #darkModeSelector:focus +  #darkModeSelector:checked{
+    background-color: #eae7d6;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(67, 110, 153)" class="bi bi-circle-fill" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>');
+    border-color: #436e99;
   }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #436e99;
-  }
-  
-  input:checked + .slider:before {
-    background-color: #436e99;
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+
+.icon {
+  margin: 0.5208366666666667vw;
+  vertical-align:middle
+}
+
+
+#sun {
+  position: relative;
+  left: -15.257265877287406vh;
+  top: -0.75vh;
+}
+
+#moon {
+  position: absolute;
+  left: 4.5vw;
+  bottom: 0.5vh;
+
+}

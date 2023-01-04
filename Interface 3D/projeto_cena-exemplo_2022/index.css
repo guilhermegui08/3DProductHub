@@ -1,0 +1,78 @@
+ body {
+    font-family: 'Poppins',Arial,sans-serif;
+    overflow-y: auto;
+  }
+
+  .header {
+    width: 97.8125vw;
+  }
+
+
+
+  .dark_mode_btn {
+    width: 9.27vw;
+    height: 3.98vh;
+    border-radius: 50px;
+    border: 0;
+    position: absolute;
+    left: 95.36vw;
+    top: 9.36vh;
+  }
+
+  .menu-esquerda {
+    position: absolute;
+    left: 0.677vw;
+    top: 17.75vh;
+    width: 99.3229vw;
+  }
+
+  #page {
+    margin-bottom: 5vh;
+    width: 100vw;
+    position: absolute;
+    left: 0.0vw;
+    top: 17.115177610333692vh;
+  }
+
+  .produto {
+    position: absolute;
+    width: 23.958333333333332vw;
+    /*height: 64.53703703703704vh;*/
+  }
+
+  #pill {
+    position: absolute;
+    left: 13.64583333333333vw;
+    top: 25.01851851851852vh;
+    width: 2.1875vw;
+  }
+
+  #produto1 {
+    position: absolute;
+    left: 25.520833333333332vw;
+    top: 28.52529601722282vh;
+  }
+
+  #produto2 {
+    position: absolute;
+    left: 50.520833333333336vw;
+    top: 27.53703703703704vh;
+  }
+
+  #produto3 {
+    left: 75.52083333333334vw;
+    top: 27.53703703703704vh;
+  }
+
+  #produto4 {
+    left: 25.52083333333333vw;
+    top: 106.35091496232508vh;
+  }
+
+  #produto5 {
+    left: 50.520833333333336vw;
+    top: 106.35091496232508vh;  }
+
+  #produto6 {
+    left: 75.52083333333334vw;
+    top: 106.35091496232508vh;  }

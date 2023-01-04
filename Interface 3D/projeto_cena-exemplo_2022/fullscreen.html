@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <link rel="stylesheet" href="fullscreen.css">
     <meta charset="UTF-8">
@@ -24,7 +24,7 @@
             <div id="canvas_div" class="col-sm-9">
                 <div id="popup">
                     <div class="popupcontent" id="popup1">
-                        <h1>Para sair pressione 'ESC'<br><br>Se precisar de ajuda clique na bandeira</h1>
+                        <h2>Para sair pressione 'ESC'<br><br>Se precisar de ajuda clique na bandeira</h2>
                     </div>
                 </div>
                 <div>
@@ -36,26 +36,36 @@
                 </div>
             </div>
             <div class="col-sm-3 menu_light" id="col-menu">
-                <div class="white-text">
-                    <text class="text-justify">(I) Ocultar menu de Definições.</text><br>
-                    <br>
-                    <div class="text-center">
-                        <button class="botaomodo btn button_light" id="mode_selector"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="url('#myGradient')" class="bi bi-moon-fill" viewBox="0 0 16 16">
-                            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
-                        </svg></button><br>
+                <div class="white-text" id="menu">
+                    <div style="height: 70vh;">
+                        <br>
+                        <div class="text-center">
+                            <button class="botao-interagir btn button_light" id="mode_selector"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="url('#myGradient')" class="bi bi-moon-fill" viewBox="0 0 16 16">
+                                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+                            </svg></button><br>
+                        </div>
+                        <text class="text-justify">(D) Mudar modo de visualização.</text><br>
+                        <br>
+                        <button class="botao-interagir btn button_light" id="btnportadireita">Abrir porta da direita.</button>
+                        <button class="botao-interagir btn button_light" id="btnportaesquerda">Abrir porta da esquerda.</button>
+                        <button class="botao-interagir btn button_light" id="btngavetacima">Abrir gaveta de cima.</button>
+                        <button class="botao-interagir btn button_light" id="btngavetabaixo">Abrir gaveta de baixo.</button>
+                        <text class="text-justify">Clique no objeto para interagir com o mesmo.</text><br>
+                        <br>
+                        <div class=""> <!--seleção luminosidade-->
+                            <button class="btn button_light botao-interagir-1terco" id="btn_lum_baixo">Baixa</button>
+                            <button class="btn button_light botao-interagir-1terco" id="btn_lum_medio">Média</button>
+                            <button class="btn button_light botao-interagir-1terco" id="btn_lum_alto">Alta</button>
+                        </div>
+                        <text class="text-justify">Níveis de luminosidade.</text><br>
                     </div>
-                    <text class="text-justify">(D) Mudar modo de visualização.</text><br>
-                    <br>
-                    <button class="botao-interagir btn button_light" id="btnportadireita">Abrir porta da direita.</button>
-                    <button class="botao-interagir btn button_light" id="btnportaesquerda">Abrir porta da esquerda.</button>
-                    <button class="botao-interagir btn button_light" id="btngavetacima">Abrir gaveta de cima.</button>
-                    <button class="botao-interagir btn button_light" id="btngavetabaixo">Abrir gaveta de baixo.</button>
-                    <text class="text-justify">Clique no objeto para interagir com o mesmo.</text><br>
-                    <br>
-                    <button id="btn-ajuda" class="botao-interagir btn button_light">Ajuda</button>
-                    <text class="text-justify" id="ajuda">(H) Ajuda.</text><br>
-                    <button class="botao-interagir btn button_light" id="btn-voltar">Voltar</button>
-                    <text class="text-justify">(ESC) Sair de modo tela cheia.</text><br>
+                    <div class="row" style="height: 25vh;"></div>
+                    <div>
+                        <button id="btn-ajuda" class="botao-interagir btn button_light">Ajuda</button>
+                        <text class="text-justify" id="ajuda">(H) Ajuda.</text><br>
+                        <button class="botao-interagir btn button_light" id="btn-voltar">Voltar</button>
+                        <text class="text-justify">(ESC) Sair de modo tela cheia.</text><br>
+                    </div>
 
                 </div>
             </div>

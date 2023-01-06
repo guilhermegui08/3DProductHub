@@ -58,8 +58,14 @@
                             <button class="btn button_light botao-interagir-1terco" id="btn_lum_alto">Alta</button>
                         </div>
                         <text class="text-justify">Níveis de luminosidade.</text><br>
+                        <div class=""> <!--seleção luminosidade-->
+                            <button class="btn button_light botao-interagir-1terco" id="btn_pos_inicial">Inicial</button>
+                            <button class="btn button_light botao-interagir-1terco" id="btn_frente">Frente</button>
+                            <button class="btn button_light botao-interagir-1terco" id="btn_lado">Lado</button>
+                        </div>
+                        <text class="text-justify">Posições predefinidas da câmara.<br>Presione o botao esquerdo do rato para manipular a posição da câmara</text><br>
                     </div>
-                    <div class="row" style="height: 25vh;"></div>
+                    <div class="row" style="height: 7vh;"></div>
                     <div>
                         <button id="btn-ajuda" class="botao-interagir btn button_light">Ajuda</button>
                         <text class="text-justify" id="ajuda">(H) Ajuda.</text><br>
@@ -80,7 +86,7 @@
     <script src="/node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
     <script src="/node_modules/three/examples/js/loaders/RGBELoader.js"></script>
     <script src="/node_modules/three/examples/js/controls/OrbitControls.js"></script>
-    
+    <script src="positions.js"></script>    
     <script src="fullscreen.js"></script>
 </body>
 </html>

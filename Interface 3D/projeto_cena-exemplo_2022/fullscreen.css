@@ -63,11 +63,13 @@ button.menu {
 
 .menu_light {
     background: #EAE7D6;
+    overflow-y: auto;
 }
 
 .menu_dark {
      background: #586062;
      color: #000;
+     overflow-y: auto;
 }
 
 .button_light {

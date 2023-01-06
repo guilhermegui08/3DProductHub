@@ -259,8 +259,8 @@ function animate() {
     requestAnimationFrame( animate );
     controls.update();
     misturador.update( relogio.getDelta() );
-    renderer.render( scene, camera );
     checkTexture();
+    renderer.render( scene, camera );
 }
 
 function addLights(){
@@ -321,6 +321,10 @@ function apply() {
         scene.getObjectByName("Cube009_1").material = m;
         scene.getObjectByName("Cube006").material = m;
         scene.getObjectByName("Cube006_1").material = m;
+        document.getElementById("movel1").src = "assets/imagens/movel" + (parseInt(texture)+1) + "_1.png";
+        document.getElementById("movel2").src = "assets/imagens/movel" + (parseInt(texture)+1) + "_2.png";
+        document.getElementById("movel3").src = "assets/imagens/movel" + (parseInt(texture)+1) + "_3.png";
+
        
 }
 

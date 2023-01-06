@@ -1,0 +1,14 @@
+2
+rotação z 0
+posição x 0
+
+3
+location
+y 0
+x 40
+z 15.66
+
+rotation 
+x 72.4
+y 0
+z 90

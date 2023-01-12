@@ -35,6 +35,7 @@ controls.enableDamping = true;
 controls.minDistance = 10;
 controls.maxDistance = 29;
 controls.autoRotateSpeed = -1;
+controls.enablePan = false;     //bloqueia movimento do btn direito do mouse
 
 
 /*var axes = new THREE.AxesHelper(10)

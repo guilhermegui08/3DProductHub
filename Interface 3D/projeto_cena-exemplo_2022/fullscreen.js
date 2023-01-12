@@ -43,6 +43,7 @@ document.getElementById("loading-screen").style.display = "block";
 controls.enableDamping = true;
 controls.minDistance = 10;
 controls.maxDistance = 29;
+controls.enablePan = false; //bloqueia movimento do btn direito do mouse
 
 /*plane*/
 /*var dimensions = new THREE.PlaneGeometry(2000, 2000);

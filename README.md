@@ -3,7 +3,7 @@ Interface web 3D para visualização de produtos de uma loja online, projeto pr�
 
 --JavaScript
 
---HTML
+--HTML/CSS
 
 #OBJETIVOS
 

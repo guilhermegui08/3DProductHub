@@ -1,5 +1,5 @@
 # projeto-SGI
-Interface web 3D para visualização de produtos de uma loja online, projeto prático da unidade curricular de Sistemas Gráficos E Interação.
+Interface web 3D para visualização de produtos de uma loja online, projeto prático da unidade curricular de Sistemas Gráficos e Interação.
 
 --JavaScript
 

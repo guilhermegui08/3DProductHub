@@ -1,17 +1,12 @@
-# projeto-SGI
-Interface web 3D para visualização de produtos de uma loja online, projeto prático da unidade curricular de Sistemas Gráficos e Interação.
+# Project-SGI
+3D Web Interface for Visualization of Products from an Online Store, practical project for the Graphics Systems and Interaction course.
 
---JavaScript
+JavaScript
 
---HTML/CSS
+HTML/CSS
 
-#OBJETIVOS
-
-Tendo como caso de estudo a interação com um produto, deve ser possível interagir com esse produto num
-ambiente tridimensional e de diversos modos, como por exemplo: mudar cores, alterar texturas; visualizar
-diferentes posições e ângulos; ver o produto em diferentes estados; pré-visualizar o produto com diferentes
-possíveis utilizações; ver os elementos com diferentes tipos de iluminação, etc.
-
+# OBJECTIVES
+Using product interaction as a case study, it should be possible to interact with the product in a three-dimensional environment in various ways, such as: changing colors, altering textures; viewing different positions and angles; seeing the product in different states; previewing the product with different possible uses; viewing elements with different types of lighting, etc.
 
 
 

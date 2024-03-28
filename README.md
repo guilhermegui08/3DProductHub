@@ -1,4 +1,5 @@
-# Project-SGI
+# 3DProductHub
+Transforming online product browsing into an engaging experience with a 3D interface, enabling users to visualize, customize, and interact with products effortlessly.
 3D Web Interface for Visualization of Products from an Online Store, practical project for the Graphics Systems and Interaction course.
 
 JavaScript
